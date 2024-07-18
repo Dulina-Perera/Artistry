@@ -3,8 +3,7 @@
 # Variables
 CC = g++
 CFLAGS = -std=c++17 -O2
-LIBS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi
-
+LIBS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi -lGL -lGLU -limgui
 # Define the target executable.
 TARGET = paint-app
 

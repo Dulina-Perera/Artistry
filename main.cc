@@ -1,37 +1,61 @@
-#define GLFW_INCLUDE_VULKAN
+#include <cstdlib>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
+int main(int argc, char** argv) {
+    // Initialize GLFW.
+    if (glfwInit() == GLFW_FALSE)
+        return EXIT_FAILURE;
 
-#include <iostream>
+    // Create a GLFW window.
+    GLFWwindow *window = glfwCreateWindow(1280, 720, "Getting Started with imGui", nullptr, nullptr);
+    if (window == nullptr) {
+        glfwTerminate();
+        return EXIT_FAILURE;
+    }
+    glfwMakeContextCurrent(window);
 
-int main()
-{
-	glfwInit();
+    // Initialize ImGui.
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    ImGui::StyleColorsLight();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
 
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	GLFWwindow *window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
+    // Main loop
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
 
-	uint32_t extensionCount = 0;
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
 
-	std::cout << extensionCount << " extensions supported\n";
+        // Our ImGui code here
+        ImGui::Begin("Hello, world!");
+        ImGui::Text("This is a simple ImGui application.");
+        ImGui::End();
 
-	glm::mat4 matrix;
-	glm::vec4 vec;
-	auto test = matrix * vec;
+        ImGui::Render();
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-	while (!glfwWindowShouldClose(window))
-	{
-		glfwPollEvents();
-	}
+        glfwSwapBuffers(window);
+    }
 
-	glfwDestroyWindow(window);
+    // Cleanup
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
-	glfwTerminate();
+    glfwDestroyWindow(window);
+    glfwTerminate();
 
-	return 0;
+    return EXIT_SUCCESS;
 }

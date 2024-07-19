@@ -2,8 +2,8 @@
 
 # Variables
 CC = g++
-CFLAGS = -std=c++17 -O2 -Iinclude -I/usr/include
-LIBS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi -lGL -lGLU -limgui -lglad
+CFLAGS = -std=c++17 -O2 -Iinclude
+LIBS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi -lGL -lGLU -limgui -lglad -lfmt -lspdlog
 
 # Target executable
 TARGET = artistry

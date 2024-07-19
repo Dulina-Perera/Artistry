@@ -6,21 +6,29 @@
 
 #include "../include/window_manager.hh"
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
-	glViewport(0, 0, width, height);
-}
-
-int main() {
+int main()
+{
 	GLFWwindow *window = WindowManager::create_window(720, 720, "Artistry");
 
-	while (!glfwWindowShouldClose(window))
+	if (!window)
 	{
-		glfwPollEvents();
-		glfwSwapBuffers(window);
+		return EXIT_FAILURE;
 	}
+	else
+	{
+		WindowManager::setup_callbacks(window);
 
-	glfwDestroyWindow(window);
-	glfwTerminate();
+		while (!glfwWindowShouldClose(window))
+		{
+			glClear(GL_COLOR_BUFFER_BIT);
 
-	return EXIT_SUCCESS;
+			glfwPollEvents();
+			glfwSwapBuffers(window);
+		}
+
+		glfwDestroyWindow(window);
+		glfwTerminate();
+
+		return EXIT_SUCCESS;
+	}
 }

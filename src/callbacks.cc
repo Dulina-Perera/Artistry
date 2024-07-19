@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <spdlog/spdlog.h>
+
 #include "../include/callbacks.hh"
 
 void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)

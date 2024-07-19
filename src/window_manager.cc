@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <spdlog/spdlog.h>
+
 #include "../include/callbacks.hh"
 #include "../include/window_manager.hh"
 

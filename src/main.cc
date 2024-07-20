@@ -7,6 +7,7 @@
 #include <exception>
 
 #include "../include/drawing_manager.hh"
+#include "../include/shader_manager.hh"
 #include "../include/utils.hh"
 #include "../include/window_manager.hh"
 
@@ -42,6 +43,9 @@ int main()
 		glfwTerminate();
 		return EXIT_FAILURE;
 	}
+
+	GLuint program = link_program("src/shaders/shader.vert", "src/shaders/shader.frag");
+	glUseProgram(program);
 
 	GLuint vao = create_vertex_array_object();
 

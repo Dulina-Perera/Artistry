@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 #include <sstream>
 
-#include "../include/shader_manager.hh"
+#include "shader_manager.hh"
 
 const std::string read_shader(const std::string &filename) {
 	std::ifstream file(filename);

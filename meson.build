@@ -10,7 +10,7 @@ project(
 )
 
 # Include directories
-include_dirs = include_directories('include', '/usr/include/glad')
+include_dirs = include_directories('include')
 
 # Source files
 src_files = files(
@@ -18,6 +18,7 @@ src_files = files(
 	'src/drawing_manager.cc',
 	'src/gui_manager.cc',
 	'src/main.cc',
+	'src/save.cc',
 	'src/shader_manager.cc',
 	'src/utils.cc',
 	'src/window_manager.cc',
@@ -37,6 +38,11 @@ glad_dep = declare_dependency(
 	link_args: ['-lglad']
 )
 
+# Manually add stb library.
+stb_de = declare_dependency(
+	include_directories: include_directories('/usr/include/stb'),
+)
+
 # Build the executable.
 executable(
 	'artistry',
@@ -48,6 +54,7 @@ executable(
 		gtk_dep,
 		imgui_dep,
 		opengl_dep,
-		spdlog_dep
+		spdlog_dep,
+		stb_de
 	]
 )

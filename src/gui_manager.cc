@@ -4,7 +4,8 @@
 #include <imgui_impl_opengl3.h>
 #include <spdlog/spdlog.h>
 
-#include "../include/gui_manager.hh"
+#include "gui_manager.hh"
+#include "save.hh"
 
 bool dark_mode = true;
 ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -83,6 +84,7 @@ void GUIManager::create_ui(std::vector<std::vector<float>> &circles)
 		{
 			if (ImGui::MenuItem("Save as PNG"))
 			{
+				save_as_png(glfwGetCurrentContext());
 			}
 			if (ImGui::MenuItem("Reset"))
 			{

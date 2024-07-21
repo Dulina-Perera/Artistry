@@ -3,8 +3,8 @@
 #include <glad/glad.h>
 #include <spdlog/spdlog.h>
 
-#include "../include/callbacks.hh"
-#include "../include/window_manager.hh"
+#include "callbacks.hh"
+#include "window_manager.hh"
 
 GLFWwindow *WindowManager::create_window(int width, int height, const char *title)
 {

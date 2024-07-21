@@ -7,11 +7,11 @@
 #include <stdlib.h>
 #include <exception>
 
-#include "../include/drawing_manager.hh"
-#include "../include/gui_manager.hh"
-#include "../include/shader_manager.hh"
-#include "../include/utils.hh"
-#include "../include/window_manager.hh"
+#include "drawing_manager.hh"
+#include "gui_manager.hh"
+#include "shader_manager.hh"
+#include "utils.hh"
+#include "window_manager.hh"
 
 extern bool dark_mode;
 extern ImVec4 clear_color;

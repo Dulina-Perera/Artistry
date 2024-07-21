@@ -4,12 +4,12 @@
 #include <spdlog/spdlog.h>
 #include <vector>
 
-#include "../include/drawing_manager.hh"
+#include "drawing_manager.hh"
 
 std::vector<float> DrawingManager::draw_circle(float x, float y, float radius, int num_segments)
 {
 	// Log the parameters received by the function.
-	spdlog::info("Drawing circle at ({}, {}) with radius {} and {} segments.", x, y, radius, num_segments);
+	// spdlog::info("Drawing circle at ({}, {}) with radius {} and {} segments.", x, y, radius, num_segments);
 
 	// Validate the input parameters.
 	if (radius <= 0)
@@ -36,6 +36,6 @@ std::vector<float> DrawingManager::draw_circle(float x, float y, float radius, i
 		vertices.push_back(y + dy);
 	}
 
-	spdlog::info("Generated {} vertices for the circle.", vertices.size() / 2); // Log the number of vertices generated.
+	// spdlog::info("Generated {} vertices for the circle.", vertices.size() / 2); // Log the number of vertices generated.
 	return vertices;
 }

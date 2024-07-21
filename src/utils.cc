@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 #include <vector>
 
-#include "../include/utils.hh"
+#include "utils.hh"
 
 GLuint create_vertex_array_object() {
 	GLuint vao;

@@ -7,9 +7,13 @@
 #include <exception>
 
 #include "../include/drawing_manager.hh"
+#include "../include/gui_manager.hh"
 #include "../include/shader_manager.hh"
 #include "../include/utils.hh"
 #include "../include/window_manager.hh"
+
+extern bool dark_mode;
+extern ImVec4 clear_color;
 
 int main()
 {
@@ -44,6 +48,8 @@ int main()
 		return EXIT_FAILURE;
 	}
 
+	glfwSwapInterval(0);
+
 	GLuint program = link_program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	glUseProgram(program);
 
@@ -53,55 +59,53 @@ int main()
 	glGenBuffers(1, &vbo);
 	spdlog::debug("Generated vertex buffer object: {}.", vbo);
 
+	GUIManager::init(window);
+
 	std::vector<std::vector<float>> circles;
 
 	while (!glfwWindowShouldClose(window))
 	{
-		spdlog::debug("Main loop iteration");
-
+		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT);
-		spdlog::debug("Color buffer cleared.");
+
+		GUIManager::new_frame();
+		GUIManager::create_ui(circles);
 
 		int width, height;
 		glfwGetFramebufferSize(window, &width, &height);
-		spdlog::debug("Framebuffer size: ({}, {})", width, height);
 
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
-		spdlog::debug("Cursor position: ({}, {})", xpos, ypos);
 
 		float x = (2 * xpos - width) / width;
 		float y = (height - 2 * ypos) / height;
 		const float radius = 0.005f;
 
 		std::vector<float> current_circle = DrawingManager::draw_circle(x, y, radius);
-		spdlog::debug("Drew a circle at ({}, {}) with radius {}.", x, y, radius);
 
 		vbo = create_vertex_buffer_object(current_circle);
-		spdlog::debug("Created vertex buffer object for the current circle.");
 
 		draw_circle(vao, vbo, current_circle, GL_TRIANGLE_FAN);
-		spdlog::debug("Drew the current circle.");
 
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
-			spdlog::debug("Left mouse button pressed. Adding current circle to the list.");
 			circles.push_back(current_circle);
 		}
 
 		for (const auto &circle : circles)
 		{
 			draw_circle(vao, vbo, circle, GL_TRIANGLE_FAN);
-			spdlog::debug("Drew a stored circle.");
 		}
 
-		glfwPollEvents();
-		spdlog::debug("GLFW events polled.");
+		GUIManager::render();
 
+		glfwPollEvents();
 		glfwSwapBuffers(window);
-		spdlog::debug("GLFW buffers swapped.");
 	}
 
+	GUIManager::shutdown();
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	spdlog::info("GLFW window destroyed and terminated successfully.");

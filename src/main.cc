@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <gtk-4.0/gtk/gtk.h>
 #include <spdlog/spdlog.h>
 #include <stdlib.h>
 #include <exception>

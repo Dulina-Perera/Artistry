@@ -4,7 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <vector>
 
-#include "drawing_manager.hh"
+#include "../include/drawing_manager.hh"
 
 std::vector<float> DrawingManager::draw_circle(float x, float y, float radius, int num_segments)
 {

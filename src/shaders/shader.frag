@@ -1,8 +1,9 @@
 #version 450 core
 
 out vec4 FragColor;
+uniform vec4 u_BrushColor;
 
 void main()
 {
-	FragColor = vec4(1.0, 0.0, 0.0, 0.0);
+	FragColor = u_BrushColor;
 }

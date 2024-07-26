@@ -15,6 +15,7 @@
 
 extern bool dark_mode;
 extern ImVec4 clear_color;
+extern ImVec4 selected_color;
 
 int main()
 {
@@ -92,6 +93,9 @@ int main()
 		{
 			circles.push_back(current_circle);
 		}
+
+		int brush_color_location = glGetUniformLocation(program, "u_BrushColor");
+		glUniform4f(brush_color_location, selected_color.x, selected_color.y, selected_color.z, selected_color.w);
 
 		for (const auto &circle : circles)
 		{

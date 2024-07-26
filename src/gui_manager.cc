@@ -9,6 +9,7 @@
 
 bool dark_mode = true;
 ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+ImVec4 selected_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 void reset_drawing(std::vector<std::vector<float>> &circles)
 {
@@ -98,7 +99,7 @@ void GUIManager::create_ui(std::vector<std::vector<float>> &circles)
 		}
 		if (ImGui::BeginMenu("Palette"))
 		{
-
+			ImGui::ColorEdit3("Color", (float *)&selected_color);
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Brush"))

@@ -1,7 +1,13 @@
 // src/window_manager.cc
 
+#include <fstream>
 #include <glad/glad.h>
+#include <iostream>
 #include <spdlog/spdlog.h>
+#include <vector>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 #include "callbacks.hh"
 #include "window_manager.hh"
@@ -34,6 +40,42 @@ GLFWwindow *WindowManager::create_window(int width, int height, const char *titl
 	spdlog::info("Window resizable hint set to false.");
 
 	return window;
+}
+
+void WindowManager::set_window_icon(GLFWwindow *window, const char *icon_path)
+{
+	int width, height, channels;
+
+	std::ifstream file(icon_path, std::ios::binary);
+	if (!file)
+	{
+		std::cerr << "Failed to open image file: " << icon_path << std::endl;
+		return;
+	}
+
+	file.seekg(0, std::ios::end);
+	size_t fileSize = file.tellg();
+	file.seekg(0, std::ios::beg);
+
+	std::vector<char> buffer(fileSize);
+	file.read(buffer.data(), fileSize);
+	file.close();
+
+	unsigned char *pixels = stbi_load_from_memory(reinterpret_cast<unsigned char *>(buffer.data()), fileSize, &width, &height, &channels, STBI_rgb_alpha);
+	if (!pixels)
+	{
+		std::cerr << "Failed to load image: " << icon_path << std::endl;
+		return;
+	}
+
+	GLFWimage image;
+	image.width = width;
+	image.height = height;
+	image.pixels = pixels;
+
+	glfwSetWindowIcon(window, 1, &image);
+
+	stbi_image_free(pixels);
 }
 
 void WindowManager::setup_callbacks(GLFWwindow *window)

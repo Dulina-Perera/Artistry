@@ -52,6 +52,8 @@ int main()
 		return EXIT_FAILURE;
 	}
 
+	WindowManager::set_window_icon(window, "./assets/icon.png");
+
 	glfwSwapInterval(0);
 
 	GLuint program = link_program("src/shaders/shader.vert", "src/shaders/shader.frag");

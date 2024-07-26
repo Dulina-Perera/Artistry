@@ -13,25 +13,32 @@
 #include "utils.hh"
 #include "window_manager.hh"
 
+/* Global Variables */
 extern bool dark_mode;
+
 extern ImVec4 clear_color;
 extern ImVec4 selected_color;
+
 extern float brush_size;
 extern int brush_size_display;
 
 int main()
 {
+	/* Set up logging */
 	spdlog::set_level(spdlog::level::info);
 	spdlog::set_pattern("[%H:%M:%S %z] [%^%l%$] [thread %t] %v");
+
 	spdlog::info("Starting Artistry...");
 
-	if (!glfwInit())
+	/* Initialize GLFW */
+	if (glfwInit() != GLFW_TRUE)
 	{
 		spdlog::critical("Failed to initialize GLFW.");
 		return EXIT_FAILURE;
 	}
-	spdlog::info("GLFW initialized successfully.");
+	spdlog::info("Successfully initialized GLFW.");
 
+	/* Set up the primary window */
 	GLFWwindow *window = WindowManager::create_window(720, 720, "Artistry");
 	if (!window)
 	{
@@ -39,10 +46,13 @@ int main()
 		return EXIT_FAILURE;
 	}
 
+	// Set an icon for the window.
+	WindowManager::set_window_icon(window, "assets/icon.png");
+
+	/* Set up window callbacks */
 	try
 	{
 		WindowManager::setup_callbacks(window);
-		spdlog::info("Callbacks set up successfully.");
 	}
 	catch (const std::exception &e)
 	{
@@ -52,10 +62,10 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	WindowManager::set_window_icon(window, "./assets/icon.png");
+	// Enable V-Sync.
+	glfwSwapInterval(1);
 
-	glfwSwapInterval(0);
-
+	/* Compile and link the shader programs. */
 	GLuint program = link_program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	glUseProgram(program);
 

@@ -16,6 +16,8 @@
 extern bool dark_mode;
 extern ImVec4 clear_color;
 extern ImVec4 selected_color;
+extern float brush_size;
+extern int brush_size_display;
 
 int main()
 {
@@ -81,7 +83,7 @@ int main()
 
 		float x = (2 * xpos - width) / width;
 		float y = (height - 2 * ypos) / height;
-		const float radius = 0.005f;
+		const float radius = brush_size;
 
 		std::vector<float> current_circle = DrawingManager::draw_circle(x, y, radius);
 
